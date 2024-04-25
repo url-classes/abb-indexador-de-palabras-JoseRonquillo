@@ -5,15 +5,15 @@ T = TypeVar('T')
 
 
 class BinaryTree:
-    def __init__(self, data: T):
-        self.__root: Optional[Node] = Node(data)
+    def __init__(self):
+        self.__root: Optional[Node] = Node(None, 1)
 
-    def getNode(self,rmp):
-        remplazo2 = rmp
-        remplazo = rmp
+    def getNode(self, rmp):
+        remplazo2 = rmp.data
+        remplazo = rmp.data
         aux = rmp.right
 
-        while aux != None:
+        while aux is not None:
             remplazo2 = remplazo
             remplazo = aux
             aux = aux.left
@@ -24,9 +24,9 @@ class BinaryTree:
 
         return remplazo
 
-    def insertar(self,elemento, *args):
-        nodo = Node(elemento)
-        if self.__root.data == None:
+    def insertar(self, elemento, procedencia,  *args):
+        nodo = Node(elemento, procedencia)
+        if self.__root.data is None:
             self.__root = nodo
         else:
             aux = self.__root
@@ -34,16 +34,20 @@ class BinaryTree:
                 aux2 = aux
                 if elemento < aux.data:
                     aux = aux.left
-                    if aux == None:
+                    if aux is None:
                         aux2.left = nodo
                         return
+                elif elemento == aux.data:
+                    aux2.sum()
+                    aux2.proce(procedencia)
+                    return
                 else:
                     aux = aux.right
-                    if aux == None:
+                    if aux is None:
                         aux2.right = nodo
                         return
 
-    def buscar(self,elemento):
+    def buscar(self, elemento):
         aux = self.__root
         while aux.data != elemento:
             if elemento < aux.data:
@@ -51,17 +55,17 @@ class BinaryTree:
             else:
                 aux = aux.right
 
-            if aux == None:
+            if aux is None:
                 return None
         return aux
 
-    def eliminar(self,elemento):
+    def eliminar(self, elemento):
         aux = self.__root
         aux2 = self.__root
         is_left = True
         while(aux.data != elemento):
             aux2 = aux
-            if(elemento<aux.data):
+            if(elemento < aux.data):
                 is_left = True
                 aux = aux.left
             else:
@@ -119,9 +123,3 @@ class BinaryTree:
 
     def Postorder(self):
         self.__root.PrintPostorder(self.__root)
-
-    def Mayor(self):
-        self.__root.mayor(self.__root,0)
-
-    def Minimo(self):
-        self.__root.minimo(self.__root,1000)

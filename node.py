@@ -6,49 +6,41 @@ T = TypeVar('T')
 
 
 class Node:
-    def __init__(self, data: T):
+    def __init__(self, data: T, procedencia: str):
         self.data = data
+        self.procedencia = procedencia
+        self.recurrencia = 1
         self.left: Optional[Node] = None
         self.right: Optional[Node] = None
+
+    def sum(self):
+        self.recurrencia += 1
+
+    def proce(self, procedencia):
+        if self.procedencia != procedencia:
+            self.procedencia += " ; " + str(procedencia)
 
     def is_leaf(self):
         return self.left is None and self.right is None
 
-    def PrintPreorder(self,node):
-        if node == None:
+    def PrintPreorder(self, node):
+        if node is None:
             return
-        print(node.data)
+        print(f"{node.data}, recurrencia: {self.recurrencia}, procedencia(s): {self.procedencia}")
         node.PrintPreorder(node.left)
         node.PrintPreorder(node.right)
 
     def PrintPostorder(self,node):
-        if node == None:
+        if node is None:
             return
         node.PrintPostorder(node.left)
         node.PrintPostorder(node.right)
-        print(node.data)
+        print(f"{node.data}, recurrencia: {self.recurrencia}, procedencia(s): {self.procedencia}")
 
-    def PrintInorder(self,node):
-        if node == None:
+    def PrintInorder(self, node):
+        if node is None:
             return
         node.PrintInorder(node.left)
-        print(node.data)
+        print(f"{node.data}, recurrencia: {self.recurrencia}, procedencia(s): {self.procedencia}")
         node.PrintInorder(node.right)
 
-    def mayor(self,node,numero):
-        if node == None:
-            return
-        if node.data > numero:
-            numero = node.data
-            print("el mayor es",numero)
-        node.mayor(node.left,numero)
-        node.mayor(node.right,numero)
-
-    def minimo(self,node,numero):
-        if node == None:
-            return
-        if node.data < numero:
-            numero = node.data
-            print("el menor es", numero)
-        node.minimo(node.left,numero)
-        node.minimo(node.right,numero)
